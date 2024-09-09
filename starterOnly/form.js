@@ -14,11 +14,8 @@ function isEmailValid() {
 }
 
 function isBirthdateValid() {
-	const birthdateValue = document.getElementById("birthdate").value;
 	const birthdateRegex = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[012])\/\d{4}$/;
-	const checker = birthdateRegex.test(birthdateValue);
-	document.getElementById("birthdateError").style.display = checker ? "block" : "none";
-	return checker;
+	return checkRegex("birthdate", birthdateRegex, "birthdateError");
 }
 
 function isQuantityValid() {
