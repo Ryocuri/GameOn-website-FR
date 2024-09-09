@@ -1,132 +1,54 @@
-function checkFirstName() {
-	const firstname = document.getElementById("first");
-	const firstnameValue = firstname.value;
-	const firstnameError = document.getElementById("firstnameError");
-	const firstnameRegex = /^[a-zA-Z -]{2,50}$/;
-
-	if (!firstnameRegex.test(firstnameValue)) {
-		firstname.style.borderColor = "red";
-		firstnameError.style.display = "block";
-	} else {
-		firstname.style.borderColor = "green";
-		firstnameError.style.display = "none";
-	}
+function isFirstNameValid() {
+	const lastnameRegex = /^[a-zA-Z -]{2,50}$/;
+	return checkRegex("first", lastnameRegex, "firstnameError");
 }
 
-function checkLastName() {
-	const lastname = document.getElementById("last");
-	const lastnameValue = lastname.value;
-	const lastnameError = document.getElementById("lastnameError");
-	const lastnameRegex = /^[a-zA-Z-]{2,50}$/;
-
-	if (!lastnameRegex.test(lastnameValue)) {
-		lastname.style.borderColor = "red";
-		lastnameError.style.display = "block";
-	} else {
-		lastname.style.borderColor = "green";
-		lastnameError.style.display = "none";
-	}
-
+function isLastNameValid() {
+	const lastnameRegex = /^[a-zA-Z -]{2,50}$/;
+	return checkRegex("last", lastnameRegex, "lastnameError");
 }
 
-function checkEmail() {
-	const email = document.getElementById("email");
-	const emailValue = email.value;
-	const emailError = document.getElementById("emailError");
-	const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-	if (!emailRegex.test(emailValue)) {
-		email.style.borderColor = "red";
-		emailError.style.display = "block";
-	} else {
-		email.style.borderColor = "green";
-		emailError.style.display = "none";
-	}
+function isEmailValid() {
+	const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+	return checkRegex("email", emailRegex, "emailError");
 }
 
-function checkBirthdate() {
-	const birthdate = document.getElementById("birthdate");
-	const birthdateValue = birthdate.value;
-	const birthdateError = document.getElementById("birthdateError");
+function isBirthdateValid() {
+	const birthdateValue = document.getElementById("birthdate").value;
 	const birthdateRegex = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[012])\/\d{4}$/;
-	if (!birthdateRegex.test(birthdateValue)) {
-		birthdate.style.borderColor = "red";
-		birthdateError.style.display = "block";
-	} else {
-		birthdate.style.borderColor = "green";
-		birthdateError.style.display = "none";
-	}
+	const checker = birthdateRegex.test(birthdateValue);
+	document.getElementById("birthdateError").style.display = checker ? "block" : "none";
+	return checker;
 }
 
-function checkQuantity() {
-	const quantity = document.getElementById("quantity");
-	const quantityValue = quantity.value;
-	const quantityError = document.getElementById("quantityError");
-	if (isNaN(quantityValue) || quantityValue < 0 || quantityValue > 20) {
-		quantity.style.borderColor = "red";
-		quantityError.style.display = "block";
-	} else {
-		quantity.style.borderColor = "green";
-		quantityError.style.display = "none";
-	}
+function isQuantityValid() {
+	const quantityValue = document.getElementById("quantity").value;
+	const checker = isNaN(quantityValue) || quantityValue < 0 || quantityValue > 20;
+	document.getElementById("quantityError").style.display = checker ? "block" : "none";
+	return checker;
 }
 
-function checkLocation() {
-	const location = document.querySelectorAll(".checkbox-input[type=radio]");
-	const locationError = document.getElementById("locationError");
-	let locationChecked = false;
-	location.forEach((loc) => {
-		if (loc.checked) {
-			locationChecked = true;
-		}
+function isLocationValid() {
+	document.querySelectorAll(".checkbox-input[type=radio]").forEach((loc) => {
+		document.getElementById("locationError").style.display = loc.checked ? "none" : "block";
+		return !!loc.checked;
 	});
-	if (!locationChecked) {
-		locationError.style.display = "block";
-	} else {
-		locationError.style.display = "none";
-	}
 }
 
-function checkCheckbox() {
-	const checkbox = document.getElementById("checkbox1");
-	const checkboxError = document.getElementById("checkboxError");
-	if (!checkbox.checked) {
-		checkboxError.style.display = "block";
-	} else {
-		checkboxError.style.display = "none";
-	}
+function isCheckboxValid() {
+	document.getElementById("checkboxError").style.display = document.getElementById("checkbox1").checked ? "none" : "block";
+	return document.getElementById("checkbox1").checked;
+}
+
+function checkRegex(inputId, regex, errorId) {
+	const inputValue = document.getElementById(inputId).value;
+	const checker = regex.test(inputValue);
+	document.getElementById(errorId).style.display = checker ? "block" : "none";
+	return checker;
 }
 
 function checkSubmit() {
-	const name = document.getElementById("first");
-	const email = document.getElementById("email");
-	const birthdate = document.getElementById("birthdate");
-	const quantity = document.getElementById("quantity");
-	const location = document.querySelectorAll(".checkbox-input");
-	const checkbox = document.getElementById("checkbox1");
-	checkFirstName();
-	checkLastName();
-	checkEmail();
-	checkBirthdate();
-	checkQuantity();
-	checkLocation();
-	checkCheckbox();
-	let formValid = true;
-	if (name.style.borderColor === "red" || email.style.borderColor === "red" || birthdate.style.borderColor === "red" || quantity.style.borderColor === "red") {
-		formValid = false;
-	}
-	let locationChecked = false;
-	location.forEach((loc) => {
-		if (loc.checked) {
-			locationChecked = true;
-		}
-	});
-	if (!locationChecked) {
-		formValid = false;
-	}
-	if (!checkbox.checked) {
-		formValid = false;
-	}
-	if (formValid) {
+	if (isCheckboxValid() && isLocationValid() && isLastNameValid() && isFirstNameValid() && isEmailValid() && isBirthdateValid() && isQuantityValid()) {
 		document.getElementById("form").submit();
 	}
 }
