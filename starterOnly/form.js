@@ -1,51 +1,70 @@
-function isFirstNameValid() {
-	const lastnameRegex = /^[a-zA-Z -]{2,50}$/;
-	return checkRegex("first", lastnameRegex, "firstnameError");
-}
-
-function isLastNameValid() {
-	const lastnameRegex = /^[a-zA-Z -]{2,50}$/;
-	return checkRegex("last", lastnameRegex, "lastnameError");
-}
-
-function isEmailValid() {
-	const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-	return checkRegex("email", emailRegex, "emailError");
-}
-
-function isBirthdateValid() {
-	const birthdateRegex = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[012])\/\d{4}$/;
-	return checkRegex("birthdate", birthdateRegex, "birthdateError");
-}
+const nameRegex = /^[a-zA-Z -]{2,50}$/;
+const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 function isQuantityValid() {
 	const quantityValue = document.getElementById("quantity").value;
-	const checker = isNaN(quantityValue) || quantityValue < 0 || quantityValue > 20;
-	document.getElementById("quantityError").style.display = checker ? "block" : "none";
-	return checker;
+	return !isNaN(quantityValue) || quantityValue < 0 || quantityValue > 20;
+}
+
+function isBirthdateValid() {
+	const date = new Date(document.getElementById("birthdate").value);
+
+	if (!(date instanceof Date) || isNaN(date)) {
+		return false;
+	}
+
+	const now = Date.now();
+	const ONE_YEAR_IN_MILLISECONDS = 365.25 * 24 * 60 * 60 * 1000;
+	const age = (now - date) / ONE_YEAR_IN_MILLISECONDS;
+
+	return age >= 16; // Minimum d'âge des participants
 }
 
 function isLocationValid() {
-	document.querySelectorAll(".checkbox-input[type=radio]").forEach((loc) => {
-		document.getElementById("locationError").style.display = loc.checked ? "none" : "block";
-		return !!loc.checked;
-	});
+	return Array.from(document.querySelectorAll(".checkbox-input[type=radio]")).some(radio => radio.checked);
 }
 
 function isCheckboxValid() {
-	document.getElementById("checkboxError").style.display = document.getElementById("checkbox1").checked ? "none" : "block";
 	return document.getElementById("checkbox1").checked;
 }
 
-function checkRegex(inputId, regex, errorId) {
-	const inputValue = document.getElementById(inputId).value;
-	const checker = regex.test(inputValue);
-	document.getElementById(errorId).style.display = checker ? "block" : "none";
-	return checker;
+function checkRegex(inputId, regex) {
+	return regex.test(document.getElementById(inputId).value);
 }
 
 function checkSubmit() {
-	if (isCheckboxValid() && isLocationValid() && isLastNameValid() && isFirstNameValid() && isEmailValid() && isBirthdateValid() && isQuantityValid()) {
-		document.getElementById("form").submit();
+	if (isCheckboxValid() && isLocationValid() && checkRegex("last", nameRegex) && checkRegex("first", nameRegex) && checkRegex("email", emailRegex) && isBirthdateValid() && isQuantityValid()) {
+		const formHeight = document.getElementById("form").offsetHeight;
+		document.getElementById("form").style.display = "none";
+
+		const div = document.createElement("div");
+		div.id = "confirmation";
+		div.innerHTML = "<h2>Merci pour votre inscription</h2>";
+		div.style.display = "flex";
+		div.style.alignItems = "center";
+		div.style.textAlign = "center";
+		div.style.padding = "20px";
+		div.style.height = formHeight + "px";
+
+		document.getElementsByClassName("modal-body")[0].appendChild(div);
+
+		const closeButton = document.createElement("button");
+		closeButton.innerHTML = "Fermer";
+		closeButton.classList.add("button");
+		closeButton.classList.add("btn-close");
+		closeButton.onclick = () => {
+			closeModal();
+			document.getElementById("form").reset();
+			document.getElementById("form").style.display = "block";
+			document.getElementById("confirmation").remove();
+			closeButton.remove();
+		};
+
+		document.getElementsByClassName("modal-body")[0].appendChild(closeButton);
 	}
 }
+
+document.getElementById("form").onsubmit = (e) => {
+	e.preventDefault();
+	checkSubmit();
+};

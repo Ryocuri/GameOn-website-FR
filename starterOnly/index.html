@@ -57,10 +57,11 @@
 			<span class="close" onclick="closeModal()"></span>
 			<div class="modal-body">
 				<form
+					id="form"
 					name="reserve"
 					action="index.html"
 					method="get"
-					onsubmit="return validate();"
+					novalidate
 				>
 					<div
 						class="formData">
@@ -215,5 +216,6 @@
 	</p>
 </footer>
 <script src="modal.js"></script>
+<script src="form.js"></script>
 </body>
 </html>
