@@ -61,7 +61,7 @@ function checkRegex(inputId, regex) {
 }
 
 function checkSubmit() {
-	document.querySelectorAll(".formData .error-message").forEach((error) => error.style.display = "none");
+	document.querySelectorAll(".error-message").forEach((error) => error.style.display = "none");
 	if (isCheckboxValid() && isLocationValid() && checkRegex("lastname", nameRegex) && checkRegex("firstname", nameRegex) && checkRegex("email", emailRegex) && isBirthdateValid() && isQuantityValid()) {
 		const formHeight = document.getElementById("form").offsetHeight;
 		document.getElementById("form").style.display = "none";
