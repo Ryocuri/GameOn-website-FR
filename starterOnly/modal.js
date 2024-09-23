@@ -23,4 +23,9 @@ function launchModal() {
 // close modal form
 function closeModal() {
 	modalbg.style.display = "none";
+
+	document.getElementById("form").reset();
+	document.getElementById("form").style.display = "block";
+	document.getElementById("confirmation").remove();
+	document.getElementsByClassName("btn-close")[0].remove();
 }

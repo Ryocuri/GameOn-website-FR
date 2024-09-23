@@ -9,7 +9,7 @@ function isQuantityValid() {
 function isBirthdateValid() {
 	const date = new Date(document.getElementById("birthdate").value);
 
-	if (!(date instanceof Date) || isNaN(date)) {
+	if (!(date instanceof Date)) {
 		return false;
 	}
 
@@ -54,10 +54,6 @@ function checkSubmit() {
 		closeButton.classList.add("btn-close");
 		closeButton.onclick = () => {
 			closeModal();
-			document.getElementById("form").reset();
-			document.getElementById("form").style.display = "block";
-			document.getElementById("confirmation").remove();
-			closeButton.remove();
 		};
 
 		document.getElementsByClassName("modal-body")[0].appendChild(closeButton);
