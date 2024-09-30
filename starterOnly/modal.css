@@ -599,3 +599,17 @@ footer {
 	text-align: center;
 	padding: 20px;
 }
+
+@media screen and (max-width: 768px) {
+	.bground {
+		align-items: normal;
+		height: 90vh;
+		background-color: transparent;
+		top: 91px;
+	}
+
+	.content {
+		max-width: none;
+		border-radius: unset;
+	}
+}

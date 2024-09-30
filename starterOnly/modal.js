@@ -19,12 +19,22 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 function launchModal() {
 	modalbg.style.display = "flex";
 	disableScroll();
+
+	if (window.innerWidth < 768) {
+		document.getElementsByClassName("hero-section")[0].style.display = "none";
+		document.getElementsByClassName("bground")[0].style.width = "100%";
+	}
 }
 
 // close modal form
 function closeModal() {
 	enableScroll();
 	modalbg.style.display = "none";
+
+	if (window.innerWidth < 768) {
+		document.getElementsByClassName("hero-section")[0].style.display = "block";
+		document.getElementsByClassName("bground")[0].style.width = "100%";
+	}
 
 	document.querySelectorAll(".error-message").forEach((error) => error.style.display = "none");
 	document.querySelectorAll(".text-control").forEach((border) => border.style.border = "none");
