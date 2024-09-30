@@ -77,7 +77,7 @@ function checkSubmit() {
 	isBirthdateValid()
 	isQuantityValid()
 
-	if (document.querySelectorAll(".error-message").length === 0) {
+	if (!Array.from(document.querySelectorAll(".error-message")).some(error => error.style.display === "block")) {
 		const formHeight = document.getElementById("form").offsetHeight;
 		document.getElementById("form").style.display = "none";
 

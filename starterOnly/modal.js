@@ -18,11 +18,12 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // launch modal form
 function launchModal() {
 	modalbg.style.display = "flex";
-	disableScroll();
 
 	if (window.innerWidth < 768) {
 		document.getElementsByClassName("hero-section")[0].style.display = "none";
 		document.getElementsByClassName("bground")[0].style.width = "100%";
+	} else {
+		disableScroll();
 	}
 }
 
