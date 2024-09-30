@@ -26,7 +26,6 @@ function isQuantityValid() {
 
 function isBirthdateValid() {
 	const date = new Date(document.getElementById("birthdate").value);
-
 	if (!(date instanceof Date) || isNaN(date)) {
 		displayError("birthdate", "Veuillez entrer une date valide.");
 		return false;
@@ -69,6 +68,7 @@ function checkRegex(inputId, regex) {
 
 function checkSubmit() {
 	document.querySelectorAll(".error-message").forEach((error) => error.style.display = "none");
+	document.querySelectorAll(".text-control").forEach((border) => border.style.border = "none");
 	isCheckboxValid()
 	isLocationValid()
 	checkRegex("lastname", nameRegex)

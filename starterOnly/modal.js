@@ -25,6 +25,8 @@ function launchModal() {
 function closeModal() {
 	modalbg.style.display = "none";
 
+	document.querySelectorAll(".error-message").forEach((error) => error.style.display = "none");
+	document.querySelectorAll(".text-control").forEach((border) => border.style.border = "none");
 	document.getElementById("form").reset();
 	document.getElementById("form").style.display = "flex";
 	document.getElementById("confirmation").remove();
