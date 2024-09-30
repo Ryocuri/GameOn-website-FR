@@ -23,6 +23,7 @@ function launchModal() {
 
 // close modal form
 function closeModal() {
+	enableScroll();
 	modalbg.style.display = "none";
 
 	document.querySelectorAll(".error-message").forEach((error) => error.style.display = "none");
@@ -32,26 +33,13 @@ function closeModal() {
 	document.getElementById("confirmation").remove();
 	document.getElementsByClassName("btn-close")[0].remove();
 
-	enableScroll();
 }
 
 function disableScroll() {
-	// Obtenir la position de défilement actuelle
-	const scrollY = window.scrollY;
-
-	// Ajouter des styles pour empêcher le défilement
-	document.body.style.position = 'fixed';
-	document.body.style.top = `-${scrollY}px`;
 	document.body.style.width = '100%';
-	document.body.style.overflowY = 'none';
+	document.body.style.overflowY = 'hidden';
 }
 
 function enableScroll() {
-	// Récupérer la position de défilement
-	const scrollY = document.body.style.top;
-	document.body.style.position = '';
-	document.body.style.top = '';
-	document.body.style.width = '';
 	document.body.style.overflowY = '';
-	window.scrollTo(0, parseInt(scrollY || '0') * -1);
 }
