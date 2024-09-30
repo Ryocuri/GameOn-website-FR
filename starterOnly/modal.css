@@ -181,10 +181,11 @@ main {
 	width: 100%;
 	overflow: auto;
 	background-color: rgba(26, 39, 156, 0.4);
+	align-items: center;
+	justify-content: center;
 }
 
 .content {
-	margin: 5% auto;
 	width: 100%;
 	max-width: 500px;
 	animation-name: modalopen;
@@ -584,3 +585,13 @@ footer {
 	}
 }
 
+#form {
+	flex-direction: column;
+}
+
+#confirmation {
+	display: flex;
+	align-items: center;
+	text-align: center;
+	padding: 20px;
+}

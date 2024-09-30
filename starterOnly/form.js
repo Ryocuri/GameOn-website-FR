@@ -2,29 +2,33 @@ const nameRegex = /^[a-zA-Z -]{2,50}$/;
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 function displayError(inputId, message) {
+	if (inputId !== "location") {
+		const inputError = document.getElementById(inputId);
+		inputError.style.border = "2px solid red";
+	}
+
 	const error = document.getElementById(inputId + "Error");
+
 	error.innerHTML = message;
 	error.style.display = "block";
-	error.style.color = "white";
-	error.style.backgroundColor = "red";
-	error.style.padding = "10px";
-	error.style.marginTop = "10px";
-	error.style.borderRadius = "5px";
-	error.style.fontSize = "medium";
+	error.style.color = "red";
+	error.style.fontSize = "small";
 }
 
 function isQuantityValid() {
 	const quantityValue = document.getElementById("quantity").value;
-	if (!isNaN(quantityValue) && (quantityValue < 0 || quantityValue > 20)) {
-		displayError("quantity", "Veuillez entrer un nombre entre 0 et 20.");
+	if (isNaN(quantityValue) || quantityValue === "" || quantityValue < 0 || quantityValue > 20) {
+		displayError("quantity", "Veuillez entrer un nombre entier entre 0 et 20.");
+		return false;
 	}
-	return !(!isNaN(quantityValue) && (quantityValue < 0 || quantityValue > 20));
+	return true;
 }
 
 function isBirthdateValid() {
 	const date = new Date(document.getElementById("birthdate").value);
 
-	if (!(date instanceof Date)) {
+	if (!(date instanceof Date) || isNaN(date)) {
+		displayError("birthdate", "Veuillez entrer une date valide.");
 		return false;
 	}
 
@@ -42,37 +46,44 @@ function isBirthdateValid() {
 function isLocationValid() {
 	if (!Array.from(document.querySelectorAll(".checkbox-input[type=radio]")).some(radio => radio.checked)) {
 		displayError("location", "Veuillez choisir une ville.");
+		return false;
 	}
-	return Array.from(document.querySelectorAll(".checkbox-input[type=radio]")).some(radio => radio.checked);
+	return true;
 }
 
 function isCheckboxValid() {
 	if (!document.getElementById("checkbox1").checked) {
 		displayError("checkbox1", "Vous devez accepter les conditions d'utilisation.");
+		return false;
 	}
-	return document.getElementById("checkbox1").checked;
+	return true;
 }
 
 function checkRegex(inputId, regex) {
 	if (!regex.test(document.getElementById(inputId).value)) {
 		displayError(inputId, "Veuillez entrer un(e) " + inputId + " valide.");
+		return false;
 	}
-	return regex.test(document.getElementById(inputId).value);
+	return true;
 }
 
 function checkSubmit() {
 	document.querySelectorAll(".error-message").forEach((error) => error.style.display = "none");
-	if (isCheckboxValid() && isLocationValid() && checkRegex("lastname", nameRegex) && checkRegex("firstname", nameRegex) && checkRegex("email", emailRegex) && isBirthdateValid() && isQuantityValid()) {
+	isCheckboxValid()
+	isLocationValid()
+	checkRegex("lastname", nameRegex)
+	checkRegex("firstname", nameRegex)
+	checkRegex("email", emailRegex)
+	isBirthdateValid()
+	isQuantityValid()
+
+	if (document.querySelectorAll(".error-message").length === 0) {
 		const formHeight = document.getElementById("form").offsetHeight;
 		document.getElementById("form").style.display = "none";
 
 		const div = document.createElement("div");
 		div.id = "confirmation";
 		div.innerHTML = "<h2>Merci pour votre inscription</h2>";
-		div.style.display = "flex";
-		div.style.alignItems = "center";
-		div.style.textAlign = "center";
-		div.style.padding = "20px";
 		div.style.height = formHeight + "px";
 
 		document.getElementsByClassName("modal-body")[0].appendChild(div);
