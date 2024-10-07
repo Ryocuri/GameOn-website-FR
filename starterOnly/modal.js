@@ -41,8 +41,10 @@ function closeModal() {
 	document.querySelectorAll(".text-control").forEach((border) => border.style.border = "none");
 	document.getElementById("form").reset();
 	document.getElementById("form").style.display = "flex";
-	document.getElementById("confirmation").remove();
-	document.getElementsByClassName("btn-close")[0].remove();
+	if (document.getElementById("confirmation")) {
+		document.getElementById("confirmation").remove();
+		document.getElementsByClassName("btn-close")[0].remove();
+	}
 
 }
 

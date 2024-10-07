@@ -600,6 +600,16 @@ footer {
 	padding: 20px;
 }
 
+.error-message {
+	display: none;
+}
+
+.error-display {
+	display: block;
+	color: red;
+	font-size: small;
+}
+
 @media screen and (max-width: 768px) {
 	.bground {
 		align-items: normal;

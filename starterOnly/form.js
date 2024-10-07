@@ -3,16 +3,14 @@ const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9]
 
 function displayError(inputId, message) {
 	if (inputId !== "location") {
-		const inputError = document.getElementById(inputId);
-		inputError.style.border = "2px solid red";
+		document.getElementById(inputId).style.border = "2px solid red";
 	}
 
 	const error = document.getElementById(inputId + "Error");
 
 	error.innerHTML = message;
-	error.style.display = "block";
-	error.style.color = "red";
-	error.style.fontSize = "small";
+	error.classList.add("error-display");
+
 }
 
 function isQuantityValid() {
@@ -31,9 +29,7 @@ function isBirthdateValid() {
 		return false;
 	}
 
-	const now = Date.now();
-	const ONE_YEAR_IN_MILLISECONDS = 365.25 * 24 * 60 * 60 * 1000;
-	const age = (now - date) / ONE_YEAR_IN_MILLISECONDS;
+	const age = (Date.now() - date) / (365.25 * 24 * 60 * 60 * 1000);
 
 	if (age < 16) {
 		displayError("birthdate", "Vous devez avoir au moins 16 ans pour participer.");
@@ -67,7 +63,7 @@ function checkRegex(inputId, regex) {
 }
 
 function checkSubmit() {
-	document.querySelectorAll(".error-message").forEach((error) => error.style.display = "none");
+	document.querySelectorAll(".error-display").forEach((error) => error.classList.remove("error-display"));
 	document.querySelectorAll(".text-control").forEach((border) => border.style.border = "none");
 	isCheckboxValid()
 	isLocationValid()
@@ -77,7 +73,7 @@ function checkSubmit() {
 	isBirthdateValid()
 	isQuantityValid()
 
-	if (!Array.from(document.querySelectorAll(".error-message")).some(error => error.style.display === "block")) {
+	if (!document.querySelectorAll(".error-display").length) {
 		const formHeight = document.getElementById("form").offsetHeight;
 		document.getElementById("form").style.display = "none";
 
